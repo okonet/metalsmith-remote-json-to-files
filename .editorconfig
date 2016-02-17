@@ -13,5 +13,8 @@ insert_final_newline = true
 quote_type = single
 spaces_around_operators = true
 
+[*.json]
+indent_size = 2
+
 [*.md]
 trim_trailing_whitespace = false
