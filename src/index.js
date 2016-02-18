@@ -2,13 +2,12 @@
 /* eslint-disable no-console */
 
 import 'regenerator/runtime'
+import 'isomorphic-fetch'
 import util from 'util'
 import chalk from 'chalk'
 import debug from 'debug'
-import fetch from 'node-fetch'
-import pkg from '../package.json'
 
-const DEBUG_KEY = `metalsmith:${pkg.name}` // See https://github.com/mahnunchik/metalsmith-debug
+const DEBUG_KEY = 'metalsmith:remote-json-to-files' // See https://github.com/mahnunchik/metalsmith-debug
 const log = debug(DEBUG_KEY)
 const ok = chalk.green(`✔︎`)
 const nok = chalk.red(`✗`)
@@ -19,10 +18,11 @@ function inspect(obj) {
 
 export default (opts = {}, callback) => {
     const { url, fetchOpts } = opts
+
     return async (files, metalsmith, done) => {
         const json = await fetch(url, fetchOpts)
             .then(response => response.json())
-            .catch(err => done(log(`${nok} Fetch ${url} failed:`, err)))
+            .catch(err => done(err))
 
         log(`${ok} Fetched from ${url}: `, inspect(json))
 
