@@ -1,6 +1,6 @@
 {
   "name": "metalsmith-remote-json-to-files",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Inject files to metalsmith pipeline based on remote API response",
   "main": "lib/index.js",
   "scripts": {
