@@ -2,10 +2,10 @@
   "name": "metalsmith-remote-json-to-files",
   "version": "0.0.0",
   "description": "Inject files to metalsmith pipeline based on remote API response",
-  "main": "dest/index.js",
+  "main": "lib/index.js",
   "scripts": {
     "start": "npm run build -- --watch",
-    "build": "babel src -d dest",
+    "build": "babel src -d lib",
     "prepublish": "npm run build",
     "test": "mocha --require babel-core/register './test/index.js'",
     "eslint": "eslint src --fix"
