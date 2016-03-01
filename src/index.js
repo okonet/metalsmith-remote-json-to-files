@@ -49,7 +49,7 @@ export default (fetchOptions = {}, transformOpts = {}) => {
     const fetchOpts = merge(defaultFetchOptions, rest)
     const transformOptions = merge(defaultTransformOptions, transformOpts)
 
-    return async (files, metalsmith, done) => {
+    return (files, metalsmith, done) => {
 
         // Check required options and parameters
         if (typeof url === 'undefined') {
@@ -63,18 +63,19 @@ export default (fetchOptions = {}, transformOpts = {}) => {
         }
 
         // Request JSON
-        const json = await fetch(url, fetchOpts)
+        fetch(url, fetchOpts)
             .then(response => response.json())
+            .then(json => {
+                log(`${ok} Fetched from ${url}: `, inspect(json))
+
+                // Transfor the result to files
+                const newFiles = transform(json, transformOptions)
+
+                // Add files to pipeline
+                files = Object.assign(files, newFiles)
+                log(`${ok} Transformed JSON to files: `, inspect(newFiles))
+                done()
+            })
             .catch(err => done(err))
-
-        log(`${ok} Fetched from ${url}: `, inspect(json))
-
-        // Transfor the result to files
-        const newFiles = transform(json, transformOptions)
-
-        // Add files to pipeline
-        files = Object.assign(files, newFiles)
-        log(`${ok} Transformed JSON to files: `, inspect(newFiles))
-        done()
     }
 }

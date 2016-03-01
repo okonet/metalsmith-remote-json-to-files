@@ -4,7 +4,8 @@ import expect from 'expect'
 import equal from 'assert-dir-equal'
 import fetchMock from 'fetch-mock'
 import Metalsmith from 'metalsmith'
-import plugin from '../src'
+
+const plugin = require(process.env.NODE_ENV === 'test' ? '../lib' : '../src')
 
 describe('metalsmith-remote-json-to-files', () => {
 
