@@ -31,6 +31,7 @@
   "devDependencies": {
     "assert-dir-equal": "^1.0.1",
     "babel-cli": "^6.5.1",
+    "babel-core": "^6.6.0",
     "babel-plugin-add-module-exports": "^0.1.2",
     "babel-plugin-transform-export-extensions": "^6.5.0",
     "babel-polyfill": "^6.5.0",
