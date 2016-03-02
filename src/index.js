@@ -5,7 +5,7 @@ import 'isomorphic-fetch'
 import util from 'util'
 import chalk from 'chalk'
 import debug from 'debug'
-import { merge, template, isArray, isString } from 'lodash'
+import { merge, template, isArray, isString, isFunction } from 'lodash'
 
 const DEBUG_KEY = 'metalsmith:remote-json-to-files' // See https://github.com/mahnunchik/metalsmith-debug
 const log = debug(DEBUG_KEY)
@@ -47,7 +47,6 @@ function transform(json, opts) {
 export default (fetchOptions = {}, transformOpts = {}) => {
     const { url, ...rest } = fetchOptions
     const fetchOpts = merge(defaultFetchOptions, rest)
-    const transformOptions = merge(defaultTransformOptions, transformOpts)
 
     return (files, metalsmith, done) => {
 
@@ -55,11 +54,14 @@ export default (fetchOptions = {}, transformOpts = {}) => {
         if (typeof url === 'undefined') {
             return done(new Error(`${nok} 'url' parameter must be specified`))
         }
-        if (!isString(transformOptions.filename)) {
-            return done(new Error(`${nok} 'filename' option is required and must be a string`))
-        }
-        if (!isString(transformOptions.contents)) {
-            return done(new Error(`${nok} 'contents' option is required and must be a string`))
+        if (!isFunction(transformOpts)) {
+            transformOpts = merge(defaultTransformOptions, transformOpts)
+            if (!isString(transformOpts.filename)) {
+                return done(new Error(`${nok} 'filename' option is required and must be a string`))
+            }
+            if (!isString(transformOpts.contents)) {
+                return done(new Error(`${nok} 'contents' option is required and must be a string`))
+            }
         }
 
         // Request JSON
@@ -69,7 +71,9 @@ export default (fetchOptions = {}, transformOpts = {}) => {
                 log(`${ok} Fetched from ${url}: `, inspect(json))
 
                 // Transfor the result to files
-                const newFiles = transform(json, transformOptions)
+                const newFiles = isFunction(transformOpts) ?
+                    transformOpts(json, files, metalsmith) :
+                    transform(json, transformOpts, files, metalsmith)
 
                 // Add files to pipeline
                 files = Object.assign(files, newFiles)

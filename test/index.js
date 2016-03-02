@@ -293,6 +293,58 @@ describe('metalsmith-remote-json-to-files', () => {
 
         })
 
+        it('should support callback function', (done) => {
+            const fixturesPath = 'test/fixtures/basic'
+            fetchMock.mock('http://myurl.test', fixtureData)
+
+            function cb(json, files, metalsmith) {
+                expect(json).toBeAn('array')
+                expect(files).toBeAn('object')
+                expect(metalsmith).toExist()
+
+                return json.reduce((res, item) => {
+                    const filename = `${ item.name }.html`
+                    return {
+                        ...res,
+                        [filename]: {
+                            string: `Title ${item.name}`,
+                            date: new Date(parseInt(item.name, 10)),
+                            contents: new Buffer(`Wrapped ${item.body} content\n`),
+                            number: 1,
+                            bool: true,
+                            func: () => null
+                        }
+                    }
+                }, {})
+            }
+
+            new Metalsmith(fixturesPath)
+                .use(plugin({
+                    url: 'http://myurl.test'
+                }, cb))
+                .use((files) => {
+                    expect(files['1.html'].string).toBeA('string')
+                    expect(files['1.html'].string).toEqual('Title 1')
+
+                    expect(files['1.html'].number).toBeA('number')
+                    expect(files['1.html'].number).toEqual(1)
+
+                    expect(files['1.html'].bool).toBeA('boolean')
+                    expect(files['1.html'].bool).toEqual(true)
+
+                    expect(files['1.html'].func).toBeA('function')
+
+                    expect(files['1.html'].date).toBeA(Date)
+                    expect(files['1.html'].date.getTime()).toEqual(1)
+                })
+                .build(err => {
+                    expect(err).toBe(null)
+                    equal(path.join(fixturesPath, 'expected'), path.join(fixturesPath, 'build'))
+                    done()
+                })
+
+        })
+
         it.skip('should iterate over deeply nested props of JSON', (done) => {
             const fixturesPath = 'test/fixtures/no-array'
             fetchMock.mock('http://myurl.test', {
