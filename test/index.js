@@ -170,7 +170,6 @@ describe('metalsmith-remote-json-to-files', () => {
                     equal(path.join(fixturesPath, 'expected'), path.join(fixturesPath, 'build'))
                     done()
                 })
-
         })
 
         it('should interpolate filenames but use ' +
@@ -190,7 +189,6 @@ describe('metalsmith-remote-json-to-files', () => {
                     equal(path.join(fixturesPath, 'expected'), path.join(fixturesPath, 'build'))
                     done()
                 })
-
         })
 
         it('should not change the pipeline for empty JSON reposponse', (done) => {
@@ -290,7 +288,6 @@ describe('metalsmith-remote-json-to-files', () => {
                     equal(path.join(fixturesPath, 'expected'), path.join(fixturesPath, 'build'))
                     done()
                 })
-
         })
 
         it('should support callback function', (done) => {
@@ -342,7 +339,6 @@ describe('metalsmith-remote-json-to-files', () => {
                     equal(path.join(fixturesPath, 'expected'), path.join(fixturesPath, 'build'))
                     done()
                 })
-
         })
 
         it.skip('should iterate over deeply nested props of JSON', (done) => {
@@ -372,7 +368,6 @@ describe('metalsmith-remote-json-to-files', () => {
                     equal(path.join(fixturesPath, 'expected'), path.join(fixturesPath, 'build'))
                     done()
                 })
-
         })
 
         it.skip('should work with a single item object returned in JSON', (done) => {
@@ -394,7 +389,6 @@ describe('metalsmith-remote-json-to-files', () => {
                     equal(path.join(fixturesPath, 'expected'), path.join(fixturesPath, 'build'))
                     done()
                 })
-
         })
     })
 })
