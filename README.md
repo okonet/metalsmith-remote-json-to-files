@@ -25,11 +25,11 @@ So, if the endpoint in the `url` returns something like:
 
 ```json
 [{
-    name: 'item1',
-    body: 'content1'
+    "name": "item1",
+    "body": "content1"
 }, {
-    name: 'item2',
-    body: 'content2'
+    "name": "item2",
+    "body": "content2"
 }]
 ```
 
@@ -37,7 +37,7 @@ the configuration object should look like:
 
 ```json
 {
-    "url": [URL],
+    "url": "URL",
     "transformOpts": {
         "filename": "${name}.html",
         "contents": "${body}"
