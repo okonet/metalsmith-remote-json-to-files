@@ -13,7 +13,8 @@
     "build": "babel src -d lib",
     "prepublish": "npm run build",
     "test": "NODE_ENV=test npm run build && mocha --compilers js:babel-core/register ./test/index.js",
-    "eslint": "eslint src --fix"
+    "eslint": "eslint src --fix",
+    "release": "npmpub"
   },
   "babel": {
     "presets": [
@@ -46,7 +47,8 @@
     "expect": "^1.14.0",
     "fetch-mock": "^4.1.1",
     "metalsmith": "^2.1.0",
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "npmpub": "^3.1.0"
   },
   "dependencies": {
     "babel-polyfill": "^6.6.1",
