@@ -22,7 +22,7 @@ describe('metalsmith-remote-json-to-files', () => {
             new Metalsmith('.')
                 .use(plugin())
                 .build(err => {
-                    expect(err.toString()).toInclude(`'url' parameter must be specified`)
+                    expect(err.toString()).toInclude(`'url' parameter must be specified in 'fetchOpts'`)
                     expect(fetchMock.calls().matched.length).toBe(0)
                     expect(fetchMock.calls().unmatched.length).toBe(0)
                     done()
@@ -44,9 +44,10 @@ describe('metalsmith-remote-json-to-files', () => {
         it(`should throw if filename option is not a string`, (done) => {
             new Metalsmith('.')
                 .use(plugin({
-                    url: 'http://myurl.test'
-                }, {
-                    filename: true
+                    url: 'http://myurl.test',
+                    transformOpts: {
+                        filename: true
+                    }
                 }))
                 .build(err => {
                     expect(err.toString())
@@ -58,9 +59,10 @@ describe('metalsmith-remote-json-to-files', () => {
         it(`should throw if contents option is not defined`, (done) => {
             new Metalsmith('.')
                 .use(plugin({
-                    url: 'http://myurl.test'
-                }, {
-                    filename: ''
+                    url: 'http://myurl.test',
+                    transformOpts: {
+                        filename: ''
+                    }
                 }))
                 .build(err => {
                     expect(err.toString())
@@ -72,10 +74,11 @@ describe('metalsmith-remote-json-to-files', () => {
         it(`should throw if contents option is not a string`, (done) => {
             new Metalsmith('.')
                 .use(plugin({
-                    url: 'http://myurl.test'
-                }, {
-                    filename: '',
-                    contents: 1
+                    url: 'http://myurl.test',
+                    transformOpts: {
+                        filename: '',
+                        contents: 1
+                    }
                 }))
                 .build(err => {
                     expect(err.toString())
@@ -87,10 +90,11 @@ describe('metalsmith-remote-json-to-files', () => {
         it('should make a request to a given URL', (done) => {
             new Metalsmith('.')
                 .use(plugin({
-                    url: 'http://myurl.test'
-                }, {
-                    filename: '',
-                    contents: ''
+                    url: 'http://myurl.test',
+                    transformOpts: {
+                        filename: '',
+                        contents: ''
+                    }
                 }))
                 .build(() => {
                     expect(fetchMock.calls().matched.length).toBe(1)
@@ -102,10 +106,11 @@ describe('metalsmith-remote-json-to-files', () => {
         it('should fetch with default options', (done) => {
             new Metalsmith('.')
                 .use(plugin({
-                    url: 'http://myurl.test'
-                }, {
-                    filename: '',
-                    contents: ''
+                    url: 'http://myurl.test',
+                    transformOpts: {
+                        filename: '',
+                        contents: ''
+                    }
                 }))
                 .build(() => {
                     expect(fetchMock.lastOptions()).toEqual({
@@ -125,10 +130,11 @@ describe('metalsmith-remote-json-to-files', () => {
                     headers: {
                         'x-test': 'foo'
                     },
-                    test: 1
-                }, {
-                    filename: '',
-                    contents: ''
+                    test: 1,
+                    transformOpts: {
+                        filename: '',
+                        contents: ''
+                    }
                 }))
                 .build(() => {
                     expect(fetchMock.lastOptions()).toEqual({
@@ -160,10 +166,11 @@ describe('metalsmith-remote-json-to-files', () => {
 
             new Metalsmith(fixturesPath)
                 .use(plugin({
-                    url: 'http://myurl.test'
-                }, {
-                    filename: '${name}.html',
-                    contents: 'Wrapped ${body} content\n'
+                    url: 'http://myurl.test',
+                    transformOpts: {
+                        filename: '${name}.html',
+                        contents: 'Wrapped ${body} content\n'
+                    }
                 }))
                 .build(err => {
                     expect(err).toBe(null)
@@ -179,10 +186,11 @@ describe('metalsmith-remote-json-to-files', () => {
 
             new Metalsmith(fixturesPath)
                 .use(plugin({
-                    url: 'http://myurl.test'
-                }, {
-                    filename: 'interpolated-${name}.md',
-                    contents: 'static\n'
+                    url: 'http://myurl.test',
+                    transformOpts: {
+                        filename: 'interpolated-${name}.md',
+                        contents: 'static\n'
+                    }
                 }))
                 .build(err => {
                     expect(err).toBe(null)
@@ -197,10 +205,11 @@ describe('metalsmith-remote-json-to-files', () => {
 
             new Metalsmith(fixturesPath)
                 .use(plugin({
-                    url: 'http://myurl.test'
-                }, {
-                    filename: '${name}.md',
-                    contents: 'static\n'
+                    url: 'http://myurl.test',
+                    transformOpts: {
+                        filename: '${name}.md',
+                        contents: 'static\n'
+                    }
                 }))
                 .build(err => {
                     expect(err).toBe(null)
@@ -215,10 +224,11 @@ describe('metalsmith-remote-json-to-files', () => {
 
             new Metalsmith(fixturesPath)
                 .use(plugin({
-                    url: 'http://myurl.test'
-                }, {
-                    filename: '${name}.md',
-                    contents: 'static\n'
+                    url: 'http://myurl.test',
+                    transformOpts: {
+                        filename: '${name}.md',
+                        contents: 'static\n'
+                    }
                 }))
                 .build(err => {
                     expect(err).toBe(null)
@@ -233,10 +243,11 @@ describe('metalsmith-remote-json-to-files', () => {
 
             new Metalsmith(fixturesPath)
                 .use(plugin({
-                    url: 'http://myurl.test'
-                }, {
-                    filename: '${name}.md',
-                    contents: 'static\n'
+                    url: 'http://myurl.test',
+                    transformOpts: {
+                        filename: '${name}.md',
+                        contents: 'static\n'
+                    }
                 }))
                 .build(err => {
                     expect(err).toNotBe(null)
@@ -250,10 +261,11 @@ describe('metalsmith-remote-json-to-files', () => {
 
             new Metalsmith(fixturesPath)
                 .use(plugin({
-                    url: 'http://myurl.test'
-                }, {
-                    filename: '${name}.html',
-                    contents: 'overwritten\n'
+                    url: 'http://myurl.test',
+                    transformOpts: {
+                        filename: '${name}.html',
+                        contents: 'overwritten\n'
+                    }
                 }))
                 .build(err => {
                     expect(err).toBe(null)
@@ -269,12 +281,13 @@ describe('metalsmith-remote-json-to-files', () => {
 
             new Metalsmith(fixturesPath)
                 .use(plugin({
-                    url: 'http://myurl.test'
-                }, {
-                    filename: '${name}.html',
-                    title: 'Title ${name}',
-                    foo: 'bar',
-                    contents: 'Wrapped ${body} content\n'
+                    url: 'http://myurl.test',
+                    transformOpts: {
+                        filename: '${name}.html',
+                        title: 'Title ${name}',
+                        foo: 'bar',
+                        contents: 'Wrapped ${body} content\n'
+                    }
                 }))
                 .use((files) => {
                     expect(Object.keys(files).length).toBe(3)
@@ -317,8 +330,9 @@ describe('metalsmith-remote-json-to-files', () => {
 
             new Metalsmith(fixturesPath)
                 .use(plugin({
-                    url: 'http://myurl.test'
-                }, cb))
+                    url: 'http://myurl.test',
+                    transformOpts: cb
+                }))
                 .use((files) => {
                     expect(files['1.html'].string).toBeA('string')
                     expect(files['1.html'].string).toEqual('Title 1')
@@ -357,11 +371,12 @@ describe('metalsmith-remote-json-to-files', () => {
 
             new Metalsmith(fixturesPath)
                 .use(plugin({
-                    url: 'http://myurl.test'
-                }, {
-                    items: '${foo.bar}',
-                    filename: '${foo}.md',
-                    contents: '${bar}\n'
+                    url: 'http://myurl.test',
+                    transformOpts: {
+                        items: '${foo.bar}',
+                        filename: '${foo}.md',
+                        contents: '${bar}\n'
+                    }
                 }))
                 .build(err => {
                     expect(err).toBe(null)
@@ -379,10 +394,11 @@ describe('metalsmith-remote-json-to-files', () => {
 
             new Metalsmith(fixturesPath)
                 .use(plugin({
-                    url: 'http://myurl.test'
-                }, {
-                    filename: '${foo}.md',
-                    contents: '${bar}\n'
+                    url: 'http://myurl.test',
+                    transformOpts: {
+                        filename: '${foo}.md',
+                        contents: '${bar}\n'
+                    }
                 }))
                 .build(err => {
                     expect(err).toBe(null)

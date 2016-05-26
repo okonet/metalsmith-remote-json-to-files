@@ -44,28 +44,28 @@ function transform(json, opts) {
     return {}
 }
 
-export default (fetchOptions = {}, transformOpts = {}) => {
-    const { url, ...rest } = fetchOptions
-    const fetchOpts = merge(defaultFetchOptions, rest)
+export default (options = {}) => {
+    const { transformOpts, ...rest } = options
+    const fetchOptions = merge(defaultFetchOptions, rest)
 
     return (files, metalsmith, done) => {
-
+        const { url, ...restOpts } = fetchOptions
         // Check required options and parameters
         if (typeof url === 'undefined') {
-            return done(new Error(`${nok} 'url' parameter must be specified`))
+            return done(new Error(`${nok} 'url' parameter must be specified in 'fetchOpts'`))
         }
         if (!isFunction(transformOpts)) {
-            transformOpts = merge(defaultTransformOptions, transformOpts)
-            if (!isString(transformOpts.filename)) {
+            const transformOptions = merge(defaultTransformOptions, transformOpts)
+            if (!isString(transformOptions.filename)) {
                 return done(new Error(`${nok} 'filename' option is required and must be a string`))
             }
-            if (!isString(transformOpts.contents)) {
+            if (!isString(transformOptions.contents)) {
                 return done(new Error(`${nok} 'contents' option is required and must be a string`))
             }
         }
 
         // Request JSON
-        fetch(url, fetchOpts)
+        fetch(url, restOpts)
             .then(response => response.json())
             .then(json => {
                 log(`${ok} Fetched from ${url}: `, inspect(json))
