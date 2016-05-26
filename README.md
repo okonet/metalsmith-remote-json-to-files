@@ -47,7 +47,8 @@ the configuration object should look like:
 
 ## Example
 
-Generate static pages from GitHub releases for this project.
+Generate static pages from GitHub [releases](https://github
+.com/okonet/metalsmith-remote-json-to-files/releases) of this project.
 
 ### Using `metalsmith.json` 
 
@@ -59,7 +60,7 @@ Generate static pages from GitHub releases for this project.
     "metalsmith-remote-json-to-files": {
       "url": "https://api.github.com/repos/okonet/metalsmith-remote-json-to-files/releases",
       "transformOpts": {
-        "filename": "${name}.html",
+        "filename": "${tag_name}.html",
         "contents": "${body}"
       }
     }
@@ -68,7 +69,7 @@ Generate static pages from GitHub releases for this project.
 ```
 
 This should generate a page for each release from this repository with the contents of the 
-release. Visit https://github.com/okonet/metalsmith-remote-json-to-files/releases to compare.
+release.
  
 Same results can be aichived using Node.js API
 
@@ -80,7 +81,7 @@ metalsmith(__dirname)
     .use(remote({
         url: 'https://api.github.com/repos/okonet/metalsmith-remote-json-to-files/releases',
         "transformOpts": {
-            filename: '${name}.html',
+            filename: '${tag_name}.html',
             contents: '${body}'
         }
     }))
