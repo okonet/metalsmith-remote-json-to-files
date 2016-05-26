@@ -18,30 +18,30 @@ describe('metalsmith-remote-json-to-files', () => {
             fetchMock.mock('http://myurl.test', 200)
         })
 
-        it(`should throw before requesting data if no url was specified`, (done) => {
+        it('should throw before requesting data if no url was specified', (done) => {
             new Metalsmith('.')
                 .use(plugin())
                 .build(err => {
-                    expect(err.toString()).toInclude(`'url' parameter must be specified in 'fetchOpts'`)
+                    expect(err.toString()).toInclude('\'url\' parameter must be specified in \'fetchOpts\'')
                     expect(fetchMock.calls().matched.length).toBe(0)
                     expect(fetchMock.calls().unmatched.length).toBe(0)
                     done()
                 })
         })
 
-        it(`should throw if filename option is not defined`, (done) => {
+        it('should throw if filename option is not defined', (done) => {
             new Metalsmith('.')
                 .use(plugin({
                     url: 'http://myurl.test'
                 }))
                 .build(err => {
                     expect(err.toString())
-                        .toInclude(`'filename' option is required and must be a string`)
+                        .toInclude('\'filename\' option is required and must be a string')
                     done()
                 })
         })
 
-        it(`should throw if filename option is not a string`, (done) => {
+        it('should throw if filename option is not a string', (done) => {
             new Metalsmith('.')
                 .use(plugin({
                     url: 'http://myurl.test',
@@ -51,12 +51,12 @@ describe('metalsmith-remote-json-to-files', () => {
                 }))
                 .build(err => {
                     expect(err.toString())
-                        .toInclude(`'filename' option is required and must be a string`)
+                        .toInclude('\'filename\' option is required and must be a string')
                     done()
                 })
         })
 
-        it(`should throw if contents option is not defined`, (done) => {
+        it('should throw if contents option is not defined', (done) => {
             new Metalsmith('.')
                 .use(plugin({
                     url: 'http://myurl.test',
@@ -66,12 +66,12 @@ describe('metalsmith-remote-json-to-files', () => {
                 }))
                 .build(err => {
                     expect(err.toString())
-                        .toInclude(`'contents' option is required and must be a string`)
+                        .toInclude('\'contents\' option is required and must be a string')
                     done()
                 })
         })
 
-        it(`should throw if contents option is not a string`, (done) => {
+        it('should throw if contents option is not a string', (done) => {
             new Metalsmith('.')
                 .use(plugin({
                     url: 'http://myurl.test',
@@ -82,7 +82,7 @@ describe('metalsmith-remote-json-to-files', () => {
                 }))
                 .build(err => {
                     expect(err.toString())
-                        .toInclude(`'contents' option is required and must be a string`)
+                        .toInclude('\'contents\' option is required and must be a string')
                     done()
                 })
         })
@@ -317,9 +317,9 @@ describe('metalsmith-remote-json-to-files', () => {
                     return {
                         ...res,
                         [filename]: {
-                            string: `Title ${item.name}`,
+                            string: `Title ${ item.name }`,
                             date: new Date(parseInt(item.name, 10)),
-                            contents: new Buffer(`Wrapped ${item.body} content\n`),
+                            contents: new Buffer(`Wrapped ${ item.body } content\n`),
                             number: 1,
                             bool: true,
                             func: () => null
