@@ -14,8 +14,10 @@
     "prepublish": "npm run build",
     "test": "NODE_ENV=test npm run build && mocha --compilers js:babel-core/register ./test/index.js",
     "eslint": "eslint src --fix",
+    "eslint-staged": "eslint-staged",
     "release": "npmpub"
   },
+  "pre-commit": ["eslint-staged"],
   "babel": {
     "presets": [
       "es2015",
@@ -46,9 +48,11 @@
     "eslint-config-wildbit": "^2.0.1",
     "expect": "^1.14.0",
     "fetch-mock": "^4.1.1",
+    "lint-staged": "^0.2.2",
     "metalsmith": "^2.1.0",
     "mocha": "^2.4.5",
-    "npmpub": "^3.1.0"
+    "npmpub": "^3.1.0",
+    "pre-commit": "^1.1.3"
   },
   "dependencies": {
     "babel-polyfill": "^6.6.1",
